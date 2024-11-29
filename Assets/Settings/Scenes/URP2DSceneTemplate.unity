@@ -427,7 +427,7 @@ Camera:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -579,8 +579,8 @@ GameObject:
   - component: {fileID: 1037097052}
   - component: {fileID: 1037097051}
   - component: {fileID: 1037097053}
-  - component: {fileID: 1037097056}
   - component: {fileID: 1037097055}
+  - component: {fileID: 1037097056}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -668,7 +668,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 1037097050}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -700,9 +700,9 @@ MonoBehaviour:
   moveSpeed: 5
   counter: {fileID: 12962207}
   paddle: {fileID: 2056222597}
-  moveDirection: {x: 1, y: 1}
---- !u!70 &1037097056
-CapsuleCollider2D:
+  moveDirection: {x: -1, y: -1}
+--- !u!58 &1037097056
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -735,9 +735,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.068962224, y: 0.05363232}
-  m_Size: {x: 3.4137785, y: 1.4829354}
-  m_Direction: 1
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 1.4999999
 --- !u!1 &1136342751
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,10 +785,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 960, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1165,6 +1164,9 @@ MonoBehaviour:
   moveSpeed: 10
   startX: 0
   startY: -4
+  bouncingMultiplier: 1.5
+  minSpeed: 5
+  counter: {fileID: 12962207}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

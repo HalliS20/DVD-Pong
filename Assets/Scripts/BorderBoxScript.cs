@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BorderBoxScript : MonoBehaviour{
@@ -24,4 +25,26 @@ public class BorderBoxScript : MonoBehaviour{
     {
         
     }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        var rb = other.gameObject.GetComponent<Rigidbody2D>();
+        if (rb == null) return;
+        var position = rb.position;
+        var width = _width;
+        var height = _height;
+        var outsideRight = position.x >= width/2;
+        var outsideLeft = position.x <= -width/2;
+        var outsideTop = position.y >= height/2;
+        if (outsideRight || outsideLeft)
+        {
+            rb.linearVelocity = new Vector2(-rb.linearVelocity.x, rb.linearVelocity.y);
+        }
+        if (outsideTop)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -rb.linearVelocity.y);
+        }
+
+    }
+
 }
