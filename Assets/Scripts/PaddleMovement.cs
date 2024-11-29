@@ -8,21 +8,27 @@ public class PaddleMovement : MonoBehaviour
     [SerializeField] private float startX;
     [SerializeField] private float startY = -3f;
     [SerializeField] private float bouncingMultiplier = 1f;
-    [SerializeField] private float minSpeed = 5f;
-    [SerializeField] private float maxSpeed = 12f;
-    public TextMeshProUGUI counter;
 
+    public TextMeshProUGUI counter;
 
     private GameObject _borderBox;
     private BoxCollider2D _collider;
+    private float _floatRoundMul;
+
+    private float _fullPaddleWidth;
+    private int _intRoundMul;
+    private float _maxSpeed = 12f;
+    private float _minSpeed = 5f;
     private Rigidbody2D _rb;
+    private string _text;
 
     private void Start()
     {
         _borderBox = GameObject.FindGameObjectsWithTag("BorderBox")[0];
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<BoxCollider2D>();
-
+        _fullPaddleWidth = _collider.bounds.size.x;
+        UpdateValues();
 
         if (_rb != null)
         {
@@ -47,32 +53,39 @@ public class PaddleMovement : MonoBehaviour
     {
         var otherRb = other.gameObject.GetComponent<Rigidbody2D>();
         if (otherRb == null) return;
-        var objHitPosition = other.contacts[0].point;
-        var paddlePosition = _rb.position;
-        var hitOffsetFromCenter = objHitPosition.x - paddlePosition.x;
-        var fullPaddleWidth = _collider.bounds.size.x;
-
-        const double angleDec = 0;
-        var yPoint = Math.Sqrt(Math.Pow(fullPaddleWidth / (2 - angleDec), 2) - Math.Pow(hitOffsetFromCenter, 2));
-        var angle = Math.Atan2(yPoint, hitOffsetFromCenter);
-        var newDirection = new Vector2(Mathf.Cos((float)angle), Mathf.Sin((float)angle)).normalized;
-
-        var text = counter.text;
-        counter.text = (int.Parse(text) + 1).ToString();
-
-        var floatRoundMul = float.Parse(text) / 5f;
-        var intRoundMul = (int)floatRoundMul;
-        bouncingMultiplier = (float)Math.Pow(1.15, intRoundMul);
-        minSpeed = 5 * bouncingMultiplier;
-        maxSpeed = 12 * bouncingMultiplier;
+        var newDirection = GetNewDirection(other);
+        UpdateValues();
         var movement = Input.GetAxisRaw("Horizontal");
         var moveMul = Math.Pow(movement, 2) + 1;
         var relativeVelocity = other.relativeVelocity.magnitude;
         var otherVelocity = otherRb.linearVelocity.magnitude;
         var temperedMagnitude = (float)(relativeVelocity / moveMul);
-        if ((intRoundMul - floatRoundMul == 0 && otherVelocity <= maxSpeed) || otherVelocity <= minSpeed)
+        if (otherVelocity <= _minSpeed / 2)
             temperedMagnitude = (float)(relativeVelocity / moveMul) * bouncingMultiplier;
 
-        otherRb.linearVelocity = newDirection * Mathf.Max(minSpeed / 2, temperedMagnitude);
+        otherRb.linearVelocity = newDirection * Mathf.Max(_minSpeed / 2, temperedMagnitude);
+    }
+
+
+    private void UpdateValues()
+    {
+        var text = counter.text;
+        counter.text = (int.Parse(text) + 1).ToString();
+        _floatRoundMul = float.Parse(text) / 5f;
+        _intRoundMul = (int)_floatRoundMul;
+        bouncingMultiplier = (float)Math.Pow(1.15, _intRoundMul);
+        _minSpeed = 5 * bouncingMultiplier;
+        _maxSpeed = 7 + _minSpeed;
+    }
+
+    private Vector2 GetNewDirection(Collision2D other)
+    {
+        var objHitPosition = other.contacts[0].point;
+        var paddlePosition = _rb.position;
+        var hitOffsetFromCenter = objHitPosition.x - paddlePosition.x;
+        var yPoint = Math.Sqrt(Math.Pow(_fullPaddleWidth / 2, 2) - Math.Pow(hitOffsetFromCenter, 2));
+        var angle = Math.Atan2(yPoint, hitOffsetFromCenter);
+        var newDirection = new Vector2(Mathf.Cos((float)angle), Mathf.Sin((float)angle)).normalized;
+        return newDirection;
     }
 }

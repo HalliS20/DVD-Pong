@@ -1,13 +1,13 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class BorderBoxScript : MonoBehaviour{
+public class BorderBoxScript : MonoBehaviour
+{
+    private Camera _camera;
 
     private Collider2D _collider;
-    private Camera _camera;
+    private float _height;
     private Transform _transform;
     private float _width;
-    private float _height;
 
     private void Start()
     {
@@ -15,15 +15,14 @@ public class BorderBoxScript : MonoBehaviour{
         _camera = Camera.main;
         _transform = gameObject.transform;
         if (_camera == null) return;
-        _width = _camera.orthographicSize * 2 * _camera.aspect-1;
-        _height = _camera.orthographicSize * 2 -1;
+        _width = _camera.orthographicSize * 2 * _camera.aspect - 1;
+        _height = _camera.orthographicSize * 2 - 1;
         _transform.localScale = new Vector3(_width, _height, 1f);
         _collider.transform.localScale = new Vector3(_width, _height, 1f);
     }
 
     private void Update()
     {
-        
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -33,18 +32,10 @@ public class BorderBoxScript : MonoBehaviour{
         var position = rb.position;
         var width = _width;
         var height = _height;
-        var outsideRight = position.x >= width/2;
-        var outsideLeft = position.x <= -width/2;
-        var outsideTop = position.y >= height/2;
-        if (outsideRight || outsideLeft)
-        {
-            rb.linearVelocity = new Vector2(-rb.linearVelocity.x, rb.linearVelocity.y);
-        }
-        if (outsideTop)
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -rb.linearVelocity.y);
-        }
-
+        var outsideRight = position.x >= width / 2;
+        var outsideLeft = position.x <= -width / 2;
+        var outsideTop = position.y >= height / 2;
+        if (outsideRight || outsideLeft) rb.linearVelocity = new Vector2(-rb.linearVelocity.x, rb.linearVelocity.y);
+        if (outsideTop) rb.linearVelocity = new Vector2(rb.linearVelocity.x, -rb.linearVelocity.y);
     }
-
 }
