@@ -700,7 +700,7 @@ MonoBehaviour:
   moveSpeed: 5
   counter: {fileID: 12962207}
   paddle: {fileID: 2056222597}
-  moveDirection: {x: -1, y: -1}
+  moveDirection: {x: 0, y: -1}
 --- !u!58 &1037097056
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -789,8 +789,8 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 960, y: 600}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_ScreenMatchMode: 2
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1165,7 +1165,6 @@ MonoBehaviour:
   startX: 0
   startY: -4
   bouncingMultiplier: 1.5
-  minSpeed: 5
   counter: {fileID: 12962207}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

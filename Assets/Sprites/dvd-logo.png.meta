@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      dvd-logo_0: -5125531786422289681
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

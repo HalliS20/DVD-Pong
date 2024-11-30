@@ -22,21 +22,6 @@ public class BallMovement : MonoBehaviour
         if (_rb != null) _rb.linearVelocity = moveDirection.normalized * moveSpeed;
     }
 
-    private void Update()
-    {
-        var height = _borderBox.transform.localScale.y;
-        var outsideBottom = _rb.position.y <= -height / 2;
-
-        if (outsideBottom)
-        {
-            var position = new Vector2(0, 0);
-            _rb.position = position;
-            moveDirection = new Vector2(1f, 1f);
-            _rb.linearVelocity = moveDirection.normalized * moveSpeed;
-            counter.text = "0";
-            moveSpeed = 5;
-        }
-    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
